@@ -8,7 +8,7 @@ let id_employee = null;
 function openModalEmployee(option, id = null) {
     type_form = option;
     if (option == 1) {
-        $('#modalEditTitle').text('Add new employee');
+        $('#modalEditTitle').text('Add a new employee');
         $('#modalEdit').modal('show');
         cleanForm('formEmployee')
     } else {

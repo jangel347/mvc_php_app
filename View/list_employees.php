@@ -18,7 +18,7 @@ require_once "../config.php";
     $ec = new EmployeeController;
     $list_employees = $ec::getAll();
     ?>
-
+    <h2 class="title text-center mt-2">Employees</h2>
     <div class="container ">
         <div class="row align-items-center w-100">
             <?php while ($employee_item = $list_employees->fetch()) { ?>
@@ -99,7 +99,6 @@ require_once "../config.php";
             </div>
         </div>
     </div>
-hloaasdfsd
     <?php include Config::TEMPLATE_PATH . "footer.php"; ?>
     <?php include Config::TEMPLATE_PATH . "scripts.php"; ?>
     <script type="text/javascript" src="<?php echo Config::JS_PATH . "logicEmployees.js"; ?>"></script>

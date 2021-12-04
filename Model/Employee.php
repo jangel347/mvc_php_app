@@ -51,6 +51,24 @@ class Employee extends Model implements ModelInterface
         }
     }
 
+    public function getByAreaId($id)
+    {
+        try {
+            $sql = $this->db->query(
+                "SELECT * FROM "
+                    . $this->table_name . " WHERE area_id = " . $id
+            );
+            $sql->execute();
+            $list = [];
+            while ($item = $sql->fetch()) {
+                array_push($list, $item);
+            }
+            return [true, $list];
+        } catch (Exception $e) {
+            return [false, $e->getMessage()];
+        }
+    }
+
     public function findAllWithArea()
     {
         try {
@@ -58,7 +76,6 @@ class Employee extends Model implements ModelInterface
                 "SELECT e.*, a.name as 'area' FROM "
                     . $this->table_name . " e INNER JOIN areas a ON a.id = e.area_id"
             );
-            // $sql->execute();
             return $sql;
         } catch (Exception $e) {
             die($e->getMessage());

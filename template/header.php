@@ -7,13 +7,16 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link"  href="<?php echo Config::VIEW_PATH.'dashboard.php' ?>">Menu</a>
+                <a class="nav-link" href="<?php echo Config::VIEW_PATH . 'dashboard.php' ?>">Menu</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo Config::VIEW_PATH.'list_employees.php' ?>">Employees</a>
+                <a class="nav-link" href="<?php echo Config::VIEW_PATH . 'list_areas.php' ?>">Areas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo Config::VIEW_PATH.'areas.php' ?>">Areas</a>
+                <a class="nav-link" href="<?php echo Config::VIEW_PATH . 'list_employees.php' ?>">Employees</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo Config::VIEW_PATH . 'list_jobs.php' ?>">Jobs</a>
             </li>
         </ul>
     </div>

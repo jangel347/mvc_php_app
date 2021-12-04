@@ -19,6 +19,18 @@ if (isset($_POST)) {
                 require_once Config::CONTROLLER_PATH . 'EmployeeController.php';
                 EmployeeController::getById($_POST['employee_id']);
                 break;
+            case 'insert_area':
+                require_once Config::CONTROLLER_PATH . 'AreaController.php';
+                AreaController::insert($_POST['name']);
+                break;
+            case 'update_area':
+                require_once Config::CONTROLLER_PATH . 'AreaController.php';
+                AreaController::update($_POST['id'], $_POST['name']);
+                break;
+            case 'get_area':
+                require_once Config::CONTROLLER_PATH . 'AreaController.php';
+                AreaController::getById($_POST['id']);
+                break;
             default:
                 echo Message::transformResponse('FAIL', "No action selected");
                 break;

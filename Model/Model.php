@@ -37,7 +37,7 @@ class Model
                 "SELECT * FROM "
                     . $this->table_name
             );
-            // $sql->execute();
+            $sql->execute();
             return [true, $sql];
         } catch (Exception $e) {
             return [false, $e->getMessage()];
