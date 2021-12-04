@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" target="_blank" href="<?php echo Config::VIEW_PATH.'dashboard.php' ?>">Menu</a>
+                <a class="nav-link"  href="<?php echo Config::VIEW_PATH.'dashboard.php' ?>">Menu</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo Config::VIEW_PATH.'list_employees.php' ?>">Employees</a>

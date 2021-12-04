@@ -31,7 +31,10 @@ class Area extends Model implements ModelInterface
 
     public function update()
     {
-        
+    }
+
+    public function delete()
+    {
     }
 
     public function getAll()
@@ -67,5 +70,4 @@ class Area extends Model implements ModelInterface
             die($e->getMessage());
         }
     }
-    
 }

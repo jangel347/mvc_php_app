@@ -6,10 +6,21 @@ if (isset($_POST)) {
             case 'insert_employee':
                 require_once Config::CONTROLLER_PATH . 'EmployeeController.php';
                 EmployeeController::insert($_POST['name'], $_POST['genre'], $_POST['area_id']);
-                // echo json_encode($_POST);
+                break;
+            case 'update_employee':
+                require_once Config::CONTROLLER_PATH . 'EmployeeController.php';
+                EmployeeController::update($_POST['id'], $_POST['name'], $_POST['genre'], $_POST['area_id']);
+                break;
+            case 'delete_employee':
+                require_once Config::CONTROLLER_PATH . 'EmployeeController.php';
+                EmployeeController::delete($_POST['id']);
+                break;
+            case 'get_employee':
+                require_once Config::CONTROLLER_PATH . 'EmployeeController.php';
+                EmployeeController::getById($_POST['employee_id']);
                 break;
             default:
-                echo Message::transformResponse('FAIL', "Any action is selected");
+                echo Message::transformResponse('FAIL', "No action selected");
                 break;
         }
     }

@@ -3,10 +3,15 @@ include "../Model/Area.php";
 
 class AreaController
 {
-    public function getAll()
+    static function getAll()
     {
         $area = new Area;
-        return $area->findAll();
+        $oArea = $area->findAll();
+        if ($oArea[0]) {
+            return $oArea[1];
+        } else {
+            return [];
+        }
     }
 
     public function insert()

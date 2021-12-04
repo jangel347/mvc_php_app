@@ -31,6 +31,26 @@ class Employee extends Model implements ModelInterface
         }
     }
 
+    public function update()
+    {
+        try {
+            $sql = $this->db->prepare(
+                "UPDATE `" . $this->table_name .
+                    "` SET `name`= '"
+                    . $this->name . "', `genre`='" . $this->genre .
+                    "', `area_id`=" . $this->area_id . " WHERE `id`=" . $this->id
+            );
+            $result = $sql->execute();
+            if ($result) {
+                return [true, $result];
+            }
+            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+        } catch (Exception $e) {
+            // Log::write($e->getMessage());
+            return [false, $e->getMessage()];
+        }
+    }
+
     public function findAllWithArea()
     {
         try {
@@ -45,43 +65,20 @@ class Employee extends Model implements ModelInterface
         }
     }
 
-    public function update()
-    {
-        
-    }
-
-    public function getAll()
-    {
-    }
-
-    public function list_job()
+    public function delete()
     {
         try {
-            $stm = $this->db->query("call list_jobes");
-
-            while ($filas = $stm->fetch(PDO::FETCH_ASSOC)) {
-                $this->employees[] = $filas;
+            $sql = $this->db->prepare(
+                "DELETE FROM `" . $this->table_name . "` WHERE `id`=" . $this->id
+            );
+            $result = $sql->execute();
+            if ($result) {
+                return [true, $result];
             }
-
-            return $this->employees;
+            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
         } catch (Exception $e) {
-            die($e->getMessage());
+            // Log::write($e->getMessage());
+            return [false, $e->getMessage()];
         }
     }
-
-    public function list_employees()
-    {
-        try {
-            $stm = $this->db->query("call list_employees");
-
-            while ($filas = $stm->fetch(PDO::FETCH_ASSOC)) {
-                $this->employees[] = $filas;
-            }
-
-            return $this->employees;
-        } catch (Exception $e) {
-            die($e->getMessage());
-        }
-    }
-    
 }

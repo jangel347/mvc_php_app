@@ -4,6 +4,7 @@ window.onload = () => {
     // })
 }
 let type_form = 1;
+let id_employee = null;
 function openModalEmployee(option, id = null) {
     type_form = option;
     if (option == 1) {
@@ -12,15 +13,6 @@ function openModalEmployee(option, id = null) {
         cleanForm('formEmployee')
     } else {
         cleanForm('formEmployee')
-        $.ajax({
-            url: "../../api.php",
-            data: {
-
-            },
-            success: function (result) {
-                $("#div1").html(result);
-            }
-        });
         Swal.fire({
             title: 'Loading info!',
             html: "Wait!, please. Employee's information is comming.",
@@ -31,23 +23,29 @@ function openModalEmployee(option, id = null) {
             allowOutsideClick: false,
             didOpen: () => {
                 $.ajax({
+                    type: 'POST',
                     url: "../api.php",
                     data: {
                         'action_type': C_API,
-                        'function': 'insert_employee',
-                        'name': $('#nameInput').val(),
-                        'genre': $('#genreInput').val(),
-                        'area_id': $('#areaInput').val(),
+                        'function': 'get_employee',
+                        'employee_id': id,
                     },
-                    success: function (result) {
-                        console.log(result)
+                    success: function (response) {
+                        var response = JSON.parse(response);
+                        console.log(response)
+                        $('#nameInput').val(response.data.name);
+                        $("input[name=\"genreInput\"][value = '" + response.data.genre + "']").prop("checked", true);
+                        $('#areaInput').val(response.data.area_id);
+                        id_employee = response.data.id;
+                    },
+                    error: function (error) {
+                        console.log(error)
                     }
                 });
-                $('#modalEditTitle').text('Edit employee');
-                $('#modalEdit').modal('show');
             },
         }).then((result) => {
-
+            $('#modalEditTitle').text('Edit employee');
+            $('#modalEdit').modal('show');
         })
 
     }
@@ -68,6 +66,56 @@ function saveEmployee() {
             }
         }).done((response) => {
             response = JSON.parse(response);
+            if (response.status == 'OK') {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡The employee has been created succesfully!',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    location.reload();
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Something is wrong, try again!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+            console.log(response)
+        });
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: "../api.php",
+            data: {
+                'action_type': C_API,
+                'function': 'update_employee',
+                'id': id_employee,
+                'name': $('#nameInput').val(),
+                'genre': $('input[name="genreInput"]:checked').val(),
+                'area_id': $('#areaInput').val(),
+            }
+        }).done((response) => {
+            response = JSON.parse(response);
+            if (response.status == 'OK') {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡The changes have been applied succesfully!',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    location.reload();
+                })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Something is wrong, try again!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
             console.log(response)
         });
     }
@@ -77,6 +125,44 @@ function cleanForm(id) {
     $('#' + id)[0].reset();
 }
 
-function addEmployee() {
-
+function deleteEmployee(id) {
+    Swal.fire({
+        title: 'Are you sure to delete the employee?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes, delete',
+        denyButtonText: `No, cancel`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'POST',
+                url: "../api.php",
+                data: {
+                    'action_type': C_API,
+                    'function': 'delete_employee',
+                    'id': id
+                }
+            }).done((response) => {
+                response = JSON.parse(response);
+                if (response.status == 'OK') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡The changes have been applied succesfully!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }).then(() => {
+                        location.reload();
+                    })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Something is wrong, try again!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+                console.log(response)
+            });
+        }
+    });
 }

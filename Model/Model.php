@@ -21,12 +21,12 @@ class Model
             $sql = $this->db->prepare(
                 "SELECT * FROM "
                     . $this->table_name . " WHERE `id`=" . $id .
-                    "ORDER BY id DESC LIMIT 1"
+                    " ORDER BY id DESC LIMIT 1"
             );
             $sql->execute();
-            return $sql->fetch();
+            return [true, $sql->fetch()];
         } catch (Exception $e) {
-            die($e->getMessage());
+            return [false, $e->getMessage()];
         }
     }
 
@@ -38,9 +38,9 @@ class Model
                     . $this->table_name
             );
             // $sql->execute();
-            return $sql;
+            return [true, $sql];
         } catch (Exception $e) {
-            die($e->getMessage());
+            return [false, $e->getMessage()];
         }
     }
 }

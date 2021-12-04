@@ -78,7 +78,7 @@ require_once "../config.php";
                             <?php
                             include Config::CONTROLLER_PATH . "AreaController.php";
                             $ac = new AreaController;
-                            $list_areas = $ac->getAll();
+                            $list_areas = $ac::getAll();
                             ?>
                         </div>
                         <div class="form-group">
@@ -99,7 +99,7 @@ require_once "../config.php";
             </div>
         </div>
     </div>
-
+hloaasdfsd
     <?php include Config::TEMPLATE_PATH . "footer.php"; ?>
     <?php include Config::TEMPLATE_PATH . "scripts.php"; ?>
     <script type="text/javascript" src="<?php echo Config::JS_PATH . "logicEmployees.js"; ?>"></script>
