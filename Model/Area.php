@@ -17,9 +17,6 @@ class Area extends Model implements ModelInterface
                     "` (`id`, `name`, `created_at` , `updated_at`) VALUES (NULL, '"
                     . $this->name . "', current_timestamp(), current_timestamp())"
             );
-            echo "INSERT INTO `" . $this->table_name .
-                "` (`id`, `name`, `created_at` , `updated_at`) VALUES (NULL, '"
-                . $this->name . "', current_timestamp(), current_timestamp())";
             $result = $sql->execute();
             if ($result) {
                 return [true, $result];
@@ -79,6 +76,19 @@ class Area extends Model implements ModelInterface
 
     public function delete()
     {
+        try {
+            $sql = $this->db->prepare(
+                "DELETE FROM `" . $this->table_name . "` WHERE `id`=" . $this->id
+            );
+            $result = $sql->execute();
+            if ($result) {
+                return [true, $result];
+            }
+            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+        } catch (Exception $e) {
+            // Log::write($e->getMessage());
+            return [false, $e->getMessage()];
+        }
     }
 
     public function getAll()

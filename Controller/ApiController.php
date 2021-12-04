@@ -31,6 +31,26 @@ if (isset($_POST)) {
                 require_once Config::CONTROLLER_PATH . 'AreaController.php';
                 AreaController::getById($_POST['id']);
                 break;
+            case 'delete_area':
+                require_once Config::CONTROLLER_PATH . 'AreaController.php';
+                AreaController::delete($_POST['id']);
+                break;
+            case 'insert_job':
+                require_once Config::CONTROLLER_PATH . 'JobController.php';
+                JobController::insert($_POST['name']);
+                break;
+            case 'update_job':
+                require_once Config::CONTROLLER_PATH . 'JobController.php';
+                JobController::update($_POST['id'], $_POST['name']);
+                break;
+            case 'get_job':
+                require_once Config::CONTROLLER_PATH . 'JobController.php';
+                JobController::getById($_POST['id']);
+                break;
+            case 'delete_job':
+                require_once Config::CONTROLLER_PATH . 'JobController.php';
+                JobController::delete($_POST['id']);
+                break;
             default:
                 echo Message::transformResponse('FAIL', "No action selected");
                 break;

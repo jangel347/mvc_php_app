@@ -1,16 +1,18 @@
 let type_form = 1;
-let id_employee = null;
-function openModalEmployee(option, id = null) {
+let id_job = null;
+function openModalJob(option, id = null) {
+    id_job = id;
     type_form = option;
     if (option == 1) {
-        $('#modalEditTitle').text('Add a new employee');
+        $('#modalEditTitle').text('Add a new job');
         $('#modalEdit').modal('show');
-        cleanForm('formEmployee')
+        $('#tableEmployees').hide();
+        cleanForm('formJob')
     } else {
-        cleanForm('formEmployee')
+        cleanForm('formJob')
         Swal.fire({
             title: 'Loading info!',
-            html: "Wait!, please. Employee's information is comming.",
+            html: "Wait!, please. Job's information is comming.",
             timer: 3000,
             timerProgressBar: true,
             showConfirmButton: false,
@@ -22,16 +24,27 @@ function openModalEmployee(option, id = null) {
                     url: "../api.php",
                     data: {
                         'action_type': C_API,
-                        'function': 'get_employee',
-                        'employee_id': id,
+                        'function': 'get_job',
+                        'id': id,
                     },
                     success: function (response) {
                         var response = JSON.parse(response);
                         console.log(response)
                         $('#nameInput').val(response.data.name);
-                        $("input[name=\"genreInput\"][value = '" + response.data.genre + "']").prop("checked", true);
-                        $('#areaInput').val(response.data.area_id);
-                        id_employee = response.data.id;
+                        var index = 1;
+                        var text = '';
+                        for (var item in response.data.employees) {
+                            const employee = response.data.employees[item];
+                            text += ` 
+                            <tr>
+                                <td>${index}</td>
+                                <td>${employee['name']}</td>
+                                <td>${employee['genre'] == 'm' ? 'man' : 'woman'}</td>
+                            </tr > `;
+                            index++;
+                        }
+                        console.log(text);
+                        $('#tableJobsContent').html(text);
                     },
                     error: function (error) {
                         console.log(error)
@@ -39,32 +52,31 @@ function openModalEmployee(option, id = null) {
                 });
             },
         }).then((result) => {
-            $('#modalEditTitle').text('Edit employee');
+            $('#modalEditTitle').text('Edit job');
             $('#modalEdit').modal('show');
+            $('#tableEmployees').show();
         })
 
     }
 
 }
 
-function saveEmployee() {
+function saveJob() {
     if (type_form == 1) {
         $.ajax({
             type: 'POST',
             url: "../api.php",
             data: {
                 'action_type': C_API,
-                'function': 'insert_employee',
+                'function': 'insert_job',
                 'name': $('#nameInput').val(),
-                'genre': $('input[name="genreInput"]:checked').val(),
-                'area_id': $('#areaInput').val(),
             }
         }).done((response) => {
             response = JSON.parse(response);
             if (response.status == 'OK') {
                 Swal.fire({
                     icon: 'success',
-                    title: '¡The employee has been created succesfully!',
+                    title: '¡The job has been created succesfully!',
                     showConfirmButton: false,
                     timer: 2000
                 }).then(() => {
@@ -86,11 +98,9 @@ function saveEmployee() {
             url: "../api.php",
             data: {
                 'action_type': C_API,
-                'function': 'update_employee',
-                'id': id_employee,
+                'function': 'update_job',
+                'id': id_job,
                 'name': $('#nameInput').val(),
-                'genre': $('input[name="genreInput"]:checked').val(),
-                'area_id': $('#areaInput').val(),
             }
         }).done((response) => {
             response = JSON.parse(response);
@@ -118,11 +128,12 @@ function saveEmployee() {
 
 function cleanForm(id) {
     $('#' + id)[0].reset();
+    $('#tableJobsContent').html('');
 }
 
-function deleteEmployee(id) {
+function deleteJob(id) {
     Swal.fire({
-        title: 'Are you sure to delete the employee?',
+        title: 'Are you sure to delete the job?',
         showDenyButton: true,
         confirmButtonText: 'Yes, delete',
         denyButtonText: `No, cancel`,
@@ -134,7 +145,7 @@ function deleteEmployee(id) {
                 url: "../api.php",
                 data: {
                     'action_type': C_API,
-                    'function': 'delete_employee',
+                    'function': 'delete_job',
                     'id': id
                 }
             }).done((response) => {

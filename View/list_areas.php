@@ -77,7 +77,7 @@ require_once "../config.php";
                                         <th scope="col">Genre</th>
                                     </tr>
                                 </thead>
-                                <tbody id="tableEmployeesContent">
+                                <tbody id="tableAreasContent">
 
                                 </tbody>
                             </table>

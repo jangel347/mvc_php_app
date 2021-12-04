@@ -1,8 +1,3 @@
-window.onload = () => {
-    // Swal.fire({
-    //     title: 'SweetAlert2 + Bootstrap 4',
-    // })
-}
 let type_form = 1;
 let id_area = null;
 function openModalArea(option, id = null) {
@@ -49,7 +44,7 @@ function openModalArea(option, id = null) {
                             index++;
                         }
                         console.log(text);
-                        $('#tableEmployeesContent').html(text);
+                        $('#tableAreasContent').html(text);
                     },
                     error: function (error) {
                         console.log(error)
@@ -133,7 +128,7 @@ function saveArea() {
 
 function cleanForm(id) {
     $('#' + id)[0].reset();
-    $('#tableEmployeesContent').html('');
+    $('#tableAreasContent').html('');
 }
 
 function deleteArea(id) {
