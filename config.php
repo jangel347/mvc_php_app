@@ -9,8 +9,24 @@ class Config
     const PROJECT_PATH = "mvc_php_app/";
     const VIEW_PATH = self::PROJECT_FOLDER . "View/";
     const CONTROLLER_PATH = self::PROJECT_FOLDER . "Controller/";
+    const MODEL_PATH = self::PROJECT_FOLDER . "Model/";
     const TEMPLATE_PATH = self::PROJECT_FOLDER . "template/";
     const CSS_PATH = self::SERVER_URL . "assets/css/";
     const JS_PATH = self::SERVER_URL . "assets/js/";
     const IMAGES_PATH = self::SERVER_URL . "assets/images/";
+}
+
+class Message
+{
+    static function transformResponse($status = false, $message = false, $data = false)
+    {
+        $response = [];
+        if ($status)
+            $response['status'] = $status;
+        if ($message)
+            $response['message'] = $message;
+        if ($data)
+            $response['data'] = $data;
+        return json_encode($response);
+    }
 }

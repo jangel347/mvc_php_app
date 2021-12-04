@@ -8,7 +8,7 @@ class Model
     public function __CONSTRUCT()
     {
         try {
-            require_once "../Model/Connection.php";
+            require_once Config::MODEL_PATH . "Connection.php";
             $this->db = Connection::connect();
         } catch (Exception $e) {
             die($e->getMessage());

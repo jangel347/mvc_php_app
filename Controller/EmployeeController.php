@@ -1,20 +1,29 @@
 <?php
-include "../Model/Employee.php";
+require_once Config::MODEL_PATH . "Employee.php";
 
 class EmployeeController
 {
-    public function getAll()
+    static function getAll()
     {
         $employee = new Employee;
         return $employee->findAllWithArea();
     }
 
-    public function insert()
+    static function insert($name, $genre, $area_id)
     {
-        $employe = new Employee;
-        $employe->name = 'Jeison Angelito';
-        $employe->genre = 'm';
-        $employe->area_id = 3;
-        echo json_encode($employe->insert());
+        try {
+            $employe = new Employee;
+            $employe->name = $name;
+            $employe->genre = $genre;
+            $employe->area_id = $area_id;
+            $result = $employe->insert();
+            if ($result[0]) {
+                echo Message::transformResponse('OK', "¡Employee inserted successfully!");
+            } else {
+                echo Message::transformResponse('FAIL', $result[0]);
+            }
+        } catch (Exception $ex) {
+            echo Message::transformResponse('FAIL', "¡Something is wrong, try again!");
+        }
     }
 }
