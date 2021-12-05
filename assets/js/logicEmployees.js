@@ -1,6 +1,9 @@
 let type_form = 1;
 let id_employee = null;
+let employee_jobs = [];
 function openModalEmployee(option, id = null) {
+    validateButton()
+    employee_jobs = [];
     type_form = option;
     if (option == 1) {
         $('#modalEditTitle').text('Add a new employee');
@@ -32,6 +35,7 @@ function openModalEmployee(option, id = null) {
                         $("input[name=\"genreInput\"][value = '" + response.data.genre + "']").prop("checked", true);
                         $('#areaInput').val(response.data.area_id);
                         id_employee = response.data.id;
+                        loadJobs(response.data.jobs);
                     },
                     error: function (error) {
                         console.log(error)
@@ -47,6 +51,14 @@ function openModalEmployee(option, id = null) {
 
 }
 
+function loadJobs(jobs) {
+    employee_jobs = [];
+    for (var job in jobs) {
+        $('#cbxJob' + jobs[job]['id']).prop('checked', true);
+        employee_jobs.push(jobs[job]['id']);
+    }
+}
+
 function saveEmployee() {
     if (type_form == 1) {
         $.ajax({
@@ -58,6 +70,7 @@ function saveEmployee() {
                 'name': $('#nameInput').val(),
                 'genre': $('input[name="genreInput"]:checked').val(),
                 'area_id': $('#areaInput').val(),
+                'jobs': employee_jobs
             }
         }).done((response) => {
             response = JSON.parse(response);
@@ -91,6 +104,7 @@ function saveEmployee() {
                 'name': $('#nameInput').val(),
                 'genre': $('input[name="genreInput"]:checked').val(),
                 'area_id': $('#areaInput').val(),
+                'jobs': employee_jobs
             }
         }).done((response) => {
             response = JSON.parse(response);
@@ -113,11 +127,13 @@ function saveEmployee() {
             }
             console.log(response)
         });
+        validateButton()
     }
 }
 
 function cleanForm(id) {
     $('#' + id)[0].reset();
+    validateButton()
 }
 
 function deleteEmployee(id) {
@@ -160,4 +176,28 @@ function deleteEmployee(id) {
             });
         }
     });
+}
+
+function addId(id) {
+    if (employee_jobs.indexOf(id) == -1) {
+        employee_jobs.push(id);
+    } else {
+        removeItemFromArr(id, employee_jobs)
+    }
+    validateButton()
+}
+
+function removeItemFromArr(item, list) {
+    var i = list.indexOf(item);
+    list.splice(i, 1);
+}
+
+function validateButton() {
+    if ($('#nameInput').val().trim() != ''
+        && $('input[name="genreInput"]:checked').val().trim() != ''
+        && $('#areaInput').val().trim() != '' && employee_jobs.length > 0) {
+        $("#btnSave").prop('disabled', false);
+    } else {
+        $("#btnSave").prop('disabled', true);
+    }
 }

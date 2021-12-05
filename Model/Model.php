@@ -30,6 +30,21 @@ class Model
         }
     }
 
+    public function lastId()
+    {
+        try {
+            $sql = $this->db->prepare(
+                "SELECT `id` FROM "
+                    . $this->table_name
+                    . " ORDER BY id DESC LIMIT 1"
+            );
+            $sql->execute();
+            return [true, $sql->fetch()['id']];
+        } catch (Exception $e) {
+            return [false, $e->getMessage()];
+        }
+    }
+
     public function findAll()
     {
         try {

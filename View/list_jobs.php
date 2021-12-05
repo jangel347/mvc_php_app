@@ -6,15 +6,15 @@ require_once "../config.php";
 <html lang="en">
 
 <head>
-    <?php include Config::TEMPLATE_PATH . "head.php"; ?>
+    <?php require_once Config::TEMPLATE_PATH . "head.php"; ?>
     <link rel="stylesheet" href="<?php echo Config::CSS_PATH . "custom_styles.css"; ?>">
 </head>
 
 <body>
     <script type="text/javascript" src="<?php echo Config::JS_PATH . "urls.js"; ?>"></script>
-    <?php include Config::TEMPLATE_PATH . "header.php"; ?>
+    <?php require_once Config::TEMPLATE_PATH . "header.php"; ?>
     <?php
-    include Config::CONTROLLER_PATH . "JobController.php";
+    require_once Config::CONTROLLER_PATH . "JobController.php";
     $jc = new JobController;
     $list_jobs = $jc::getAll();
     ?>
@@ -57,10 +57,13 @@ require_once "../config.php";
                     <?php
                         $index++;
                     }
-                    ?>
+                    $noData = '';
+                    if ($index == 1) {
+                        $noData = '<h3 class="w-100 text-center mb-3 mt-3">There is not data here!</h3>';
+                    } ?>
                 </tbody>
             </table>
-
+            <?php echo $noData; ?>
         </div>
     </div>
 
@@ -82,19 +85,19 @@ require_once "../config.php";
                     <form id="formJob">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Name</label>
-                            <input type="text" class="form-control" id="nameInput" placeholder="Enter name">
+                            <input type="text" class="form-control" onkeyup="validateButton()" id="nameInput" placeholder="Enter name">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="saveJob()">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="btnSave" onclick="saveJob()" disabled>Save</button>
                 </div>
             </div>
         </div>
     </div>
-    <?php include Config::TEMPLATE_PATH . "footer.php"; ?>
-    <?php include Config::TEMPLATE_PATH . "scripts.php"; ?>
+    <?php require_once Config::TEMPLATE_PATH . "footer.php"; ?>
+    <?php require_once Config::TEMPLATE_PATH . "scripts.php"; ?>
     <script type="text/javascript" src="<?php echo Config::JS_PATH . "logicJobs.js"; ?>"></script>
 </body>
 

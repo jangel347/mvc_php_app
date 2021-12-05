@@ -21,7 +21,7 @@ class Area extends Model implements ModelInterface
             if ($result) {
                 return [true, $result];
             }
-            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+            return [false, 'Something wrong happened, ¡Try again!'];
         } catch (Exception $e) {
             // Log::write($e->getMessage());
             return [false, $e->getMessage()];
@@ -67,7 +67,7 @@ class Area extends Model implements ModelInterface
             if ($result) {
                 return [true, $result];
             }
-            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+            return [false, 'Something wrong happened, ¡Try again!'];
         } catch (Exception $e) {
             // Log::write($e->getMessage());
             return [false, $e->getMessage()];
@@ -77,16 +77,31 @@ class Area extends Model implements ModelInterface
     public function delete()
     {
         try {
+            $this->db->beginTransaction();
+
+            $sql3 = $this->db->prepare(
+                "DELETE `employee_job` FROM `employee_job` INNER JOIN `employees` ON `employees`.`id` =`employee_job`.`employee_id` WHERE `employees`.`area_id`=" . $this->id
+            );
+            $result3 = $sql3->execute();
+
+            $sql2 = $this->db->prepare(
+                "DELETE FROM `employees` WHERE `area_id`=" . $this->id
+            );
+            $result2 = $sql2->execute();
+
             $sql = $this->db->prepare(
                 "DELETE FROM `" . $this->table_name . "` WHERE `id`=" . $this->id
             );
             $result = $sql->execute();
-            if ($result) {
+            if ($result && $result2 && $result3) {
+                $this->db->commit();
                 return [true, $result];
             }
-            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+            $this->db->rollBack();
+            return [false, 'Something wrong happened, ¡Try again!'];
         } catch (Exception $e) {
             // Log::write($e->getMessage());
+            $this->db->rollBack();
             return [false, $e->getMessage()];
         }
     }

@@ -5,11 +5,11 @@ if (isset($_POST)) {
         switch ($_POST['function']) {
             case 'insert_employee':
                 require_once Config::CONTROLLER_PATH . 'EmployeeController.php';
-                EmployeeController::insert($_POST['name'], $_POST['genre'], $_POST['area_id']);
+                EmployeeController::insert($_POST['name'], $_POST['genre'], $_POST['area_id'], $_POST['jobs']);
                 break;
             case 'update_employee':
                 require_once Config::CONTROLLER_PATH . 'EmployeeController.php';
-                EmployeeController::update($_POST['id'], $_POST['name'], $_POST['genre'], $_POST['area_id']);
+                EmployeeController::update($_POST['id'], $_POST['name'], $_POST['genre'], $_POST['area_id'], $_POST['jobs']);
                 break;
             case 'delete_employee':
                 require_once Config::CONTROLLER_PATH . 'EmployeeController.php';

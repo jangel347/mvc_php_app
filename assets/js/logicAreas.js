@@ -43,7 +43,6 @@ function openModalArea(option, id = null) {
                             </tr > `;
                             index++;
                         }
-                        console.log(text);
                         $('#tableAreasContent').html(text);
                     },
                     error: function (error) {
@@ -134,6 +133,7 @@ function cleanForm(id) {
 function deleteArea(id) {
     Swal.fire({
         title: 'Are you sure to delete the area?',
+        text: "It's gonna delete all of employees that belong to this area",
         showDenyButton: true,
         confirmButtonText: 'Yes, delete',
         denyButtonText: `No, cancel`,
@@ -171,4 +171,12 @@ function deleteArea(id) {
             });
         }
     });
+}
+
+function validateButton() {
+    if ($('#nameInput').val().trim() != '') {
+        $("#btnSave").prop('disabled', false);
+    } else {
+        $("#btnSave").prop('disabled', true);
+    }
 }

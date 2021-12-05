@@ -13,6 +13,7 @@ CREATE TABLE `mvc_app`.`areas` (
 CREATE TABLE `mvc_app`.`employees` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
+    `genre` VARCHAR(10) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `area_id` INT NOT NULL,

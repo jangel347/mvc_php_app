@@ -43,7 +43,6 @@ function openModalJob(option, id = null) {
                             </tr > `;
                             index++;
                         }
-                        console.log(text);
                         $('#tableJobsContent').html(text);
                     },
                     error: function (error) {
@@ -58,8 +57,9 @@ function openModalJob(option, id = null) {
         })
 
     }
-
 }
+
+
 
 function saveJob() {
     if (type_form == 1) {
@@ -171,4 +171,12 @@ function deleteJob(id) {
             });
         }
     });
+}
+
+function validateButton() {
+    if ($('#nameInput').val().trim() != '') {
+        $("#btnSave").prop('disabled', false);
+    } else {
+        $("#btnSave").prop('disabled', true);
+    }
 }

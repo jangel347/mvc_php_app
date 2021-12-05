@@ -4,6 +4,7 @@ require_once "ModelInterface.php";
 class Job extends Model implements ModelInterface
 {
     public $table_name = 'jobs';
+    public $table_name_je = 'employee_job';
     public $id;
     public $name;
     public $created_at;
@@ -21,7 +22,7 @@ class Job extends Model implements ModelInterface
             if ($result) {
                 return [true, $result];
             }
-            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+            return [false, 'Something wrong happened, ¡Try again!'];
         } catch (Exception $e) {
             // Log::write($e->getMessage());
             return [false, $e->getMessage()];
@@ -40,7 +41,7 @@ class Job extends Model implements ModelInterface
             if ($result) {
                 return [true, $result];
             }
-            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+            return [false, 'Something wrong happened, ¡Try again!'];
         } catch (Exception $e) {
             // Log::write($e->getMessage());
             return [false, $e->getMessage()];
@@ -50,15 +51,23 @@ class Job extends Model implements ModelInterface
     public function delete()
     {
         try {
+            $this->db->beginTransaction();
+            $sql2 = $this->db->prepare(
+                "DELETE FROM `" . $this->table_name_je . "` WHERE `job_id`=" . $this->id
+            );
+            $result2 = $sql2->execute();
             $sql = $this->db->prepare(
                 "DELETE FROM `" . $this->table_name . "` WHERE `id`=" . $this->id
             );
             $result = $sql->execute();
-            if ($result) {
+            if ($result && $result2) {
+                $this->db->commit();
                 return [true, $result];
             }
-            return [false, 'Ha ocurrido un error. Intenta nuevamente'];
+            $this->db->rollBack();
+            return [false, 'Something wrong happened, ¡Try again!'];
         } catch (Exception $e) {
+            $this->db->rollBack();
             // Log::write($e->getMessage());
             return [false, $e->getMessage()];
         }
