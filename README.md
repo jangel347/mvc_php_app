@@ -15,4 +15,6 @@ http://localhost/mvc_php_app/
 
 If you want to use other folder, you must edit config.php at line 3.
 
-## Enjoy programming, enjoy improving! :)
+To import the database, you can use the sql file in Schema/mvc_app.sql
+
+## Enjoy programming, enjoy improving! ;)
